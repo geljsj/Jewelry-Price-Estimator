@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>주문 제작 견적서</title>
+    <title>주문 제작 견적서 (돈/g 환산)</title>
     <style>
         :root {
             --primary: #1c1c1e;
@@ -122,7 +122,7 @@
         <div class="section-header">1. 재료비 산출</div>
         <div class="grid-container">
             <div class="input-group">
-                <label>시세 (g)</label>
+                <label>시세 (3.75g/돈)</label>
                 <div class="input-wrapper"><span>₩</span><input type="text" id="marketPrice" inputmode="numeric" placeholder="0" oninput="handleInput(this)" onclick="this.select()"></div>
             </div>
             <div class="input-group">
@@ -184,7 +184,7 @@
     <div class="formula-info">
         <div class="formula-text">
             <b>💡최종가 산출 공식</b><br>
-            [재료비(시세×중량 + 부자재) + 제작비(디자인+세공+판관)] × 마진율
+            [재료비((시세÷3.75)×중량 + 부자재) + 제작비(디자인+세공+판관)] × 마진율
         </div>
     </div>
 </div>
@@ -217,7 +217,10 @@
             return parseFloat(val) || 0;
         };
 
-        const market = parseValue('marketPrice');
+        // 시세 입력값(돈 단위)을 가져와 3.75로 나누어 g당 시세로 환산
+        const marketDon = parseValue('marketPrice');
+        const marketGram = marketDon / 3.75;
+        
         const weight = parseValue('weight');
         const subMat = parseValue('subMat');
         const design = parseValue('design');
@@ -226,7 +229,8 @@
         const marginVal = document.getElementById('marginInput').value.replace(/,/g, "");
         const margin = marginVal === "" ? 100 : parseFloat(marginVal);
 
-        const matTotal = (market * weight) + subMat;
+        // 계산 로직 (환산된 g당 시세 사용)
+        const matTotal = (marketGram * weight) + subMat;
         const laborTotal = design + craft + admin;
         const costSum = matTotal + laborTotal;
         const finalPrice = costSum * (1 + margin / 100);
