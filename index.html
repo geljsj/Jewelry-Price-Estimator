@@ -3,20 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jewelry Price Estimator</title>
+    <title>주얼리 견적 계산기</title>
     <style>
         :root {
             --primary: #1c1c1e;
             --accent: #0071e3;
-            --bg: #f5f5f7;
+            --bg: #ffffff;
             --card: #ffffff;
             --border: #d2d2d7;
             --input-bg: #fbfbfd;
             --sub-text: #86868b;
-            --red: #ff3b30;
             --gold: #b39a6a;
-            --final-bg: #fdf6e3;
-            --final-text: #48484a;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -24,124 +21,117 @@
                 --primary: #f5f5f7;
                 --accent: #0a84ff;
                 --bg: #000000;
-                --card: #1c1c1e;
+                --card: #000000;
                 --border: #3a3a3c;
-                --input-bg: #2c2c2e;
+                --input-bg: #1c1c1e;
                 --sub-text: #98989d;
-                --red: #ff453a;
                 --gold: #d4bb8e;
-                --final-bg: #2c2c0e;
-                --final-text: #f5f5f7;
             }
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; letter-spacing: -0.02em; }
+        
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Pretendard", sans-serif; 
-            background-color: var(--bg); margin: 0; padding: 20px 15px; color: var(--primary);
+            background-color: var(--bg); margin: 0; padding: 0; color: var(--primary);
             line-height: 1.4; transition: all 0.3s ease;
         }
 
-        .calc-card { 
-            background: var(--card); border-radius: 20px; 
-            width: 100%; max-width: 480px; margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 24px;
+        .container { 
+            width: 100%; max-width: 600px; margin: 0 auto; padding: 20px 16px;
         }
 
-        .main-header { text-align: center; margin-bottom: 24px; }
+        .main-header { text-align: left; margin-bottom: 28px; padding-left: 4px; }
         .main-title { font-size: 1.8rem; font-weight: 800; margin: 0; }
-      
 
-        .section { margin-bottom: 24px; }
+        .section { margin-bottom: 32px; }
+        
         .section-header { 
-            font-size: 0.9rem; font-weight: 600; color: var(--gold);
-            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
-            text-transform: uppercase; letter-spacing: 0.01em;
+            font-size: 0.95rem; font-weight: 800; color: var(--gold);
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+            text-transform: uppercase; letter-spacing: 0.02em;
         }
 
         .grid-container {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
         }
 
         .input-group {
-            background: var(--input-bg); padding: 10px 10px; border-radius: 12px;
+            background: var(--input-bg); padding: 12px; border-radius: 14px;
             border: 1px solid var(--border); transition: all 0.2s ease;
         }
         .input-group:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,113,227,0.1); }
         
         .input-group label {
-            display: block; font-size: 0.65rem; color: var(--sub-text);
-            margin-bottom: 4px; font-weight: 600;
+            display: block; font-size: 0.7rem; color: var(--sub-text);
+            margin-bottom: 6px; font-weight: 600;
         }
         .input-wrapper { display: flex; align-items: center; gap: 2px; }
-        .input-wrapper span { font-size: 0.8rem; font-weight: 500; color: var(--primary); }
+        .input-wrapper span { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
 
         input { 
             width: 100%; border: none; background: transparent;
-            font-size: 0.95rem; font-weight: 600; color: var(--primary);
+            font-size: 1rem; font-weight: 700; color: var(--primary);
             outline: none; padding: 0;
         }
-        input::placeholder { color: var(--border); }
 
         .sub-total {
-            grid-column: span 3; padding: 12px 4px 4px;
+            grid-column: span 3; padding: 12px 4px 0;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .sub-total-label { font-size: 0.8rem; font-weight: 500; color: var(--sub-text); }
-        .sub-total-val { font-size: 0.95rem; font-weight: 600; color: var(--primary); }
+        .sub-total-label { font-size: 0.85rem; font-weight: 600; color: var(--sub-text); }
+        .sub-total-val { font-size: 1.05rem; font-weight: 700; color: var(--primary); }
 
         .total-section {
-            background: var(--primary); color: var(--card);
-            border-radius: 16px; padding: 16px; text-align: center;
-            margin-top: 10px; position: relative; overflow: hidden;
+            background: #1c1c1e; color: #ffffff;
+            border-radius: 18px; padding: 24px; text-align: center;
+            margin-top: 16px;
         }
-        .final-price-label { font-weight: 500; font-size: 0.85rem; opacity: 0.8; margin-bottom: 6px; display: block; }
-        .final-price-val { font-size: 1.8rem; color: #fff; font-weight: 800; }
+        .final-price-label { font-weight: 600; font-size: 0.9rem; opacity: 0.7; margin-bottom: 8px; display: block; }
+        .final-price-val { font-size: 2rem; color: #ffffff !important; font-weight: 800; }
         
-        /* 다크모드 대응 고정 컬러 (결과값 강조) */
-        [id="totalPrice"] { color: #ffffff; }
-        @media (prefers-color-scheme: light) {
-            .total-section { background: #1c1c1e; }
+        @media (prefers-color-scheme: dark) {
+            .total-section { background: #2c2c2e; }
         }
 
         .margin-group { grid-column: span 1; }
         .cost-info-group { 
             grid-column: span 2; display: flex; flex-direction: column; justify-content: center;
-            padding-left: 5px;
+            padding-left: 4px;
         }
 
         .formula-info {
-            margin-top: 20px; padding: 12px; border-radius: 12px;
-            background: var(--bg); border: 1px solid var(--border);
+            margin-top: 30px; padding: 16px; border-radius: 14px;
+            background: var(--input-bg); border: 1px solid var(--border);
         }
-        .formula-text { font-size: 0.7rem; color: var(--sub-text); text-align: center; line-height: 1.5; }
+        .formula-text { font-size: 0.75rem; color: var(--sub-text); text-align: center; line-height: 1.6; word-break: keep-all; }
+        .formula-text b { font-weight: 800; color: var(--gold); }
 
-        /* 애니메이션 */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .calc-card { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .container { animation: fadeIn 0.4s ease-out; }
     </style>
 </head>
 <body>
 
-<div class="calc-card">
+<div class="container">
     <div class="main-header">
         <h1 class="main-title">주얼리 견적 계산기</h1>
     </div>
     
     <div class="section">
-        <div class="section-header">1. 재료비</div>
+        <div class="section-header">1. 재료비 산출</div>
         <div class="grid-container">
             <div class="input-group">
                 <label>시세 (g)</label>
-                <div class="input-wrapper"><span>₩</span><input type="text" id="marketPrice" inputmode="numeric" placeholder="0" oninput="handleInput(this)"></div>
+                <div class="input-wrapper"><span>₩</span><input type="text" id="marketPrice" inputmode="numeric" placeholder="0" oninput="handleInput(this)" onclick="this.select()"></div>
             </div>
             <div class="input-group">
                 <label>중량 (g)</label>
-                <div class="input-wrapper"><input type="text" id="weight" inputmode="decimal" placeholder="0" oninput="handleInput(this)"><span>g</span></div>
+                <div class="input-wrapper"><input type="text" id="weight" inputmode="decimal" placeholder="0" oninput="handleInput(this)" onclick="this.select()"><span>g</span></div>
             </div>
             <div class="input-group">
                 <label>부자재</label>
-                <div class="input-wrapper"><span>₩</span><input type="text" id="subMat" inputmode="numeric" placeholder="0" oninput="handleInput(this)"></div>
+                <div class="input-wrapper"><span>₩</span><input type="text" id="subMat" inputmode="numeric" placeholder="0" oninput="handleInput(this)" onclick="this.select()"></div>
             </div>
             <div class="sub-total">
                 <div class="sub-total-label">재료비 소계</div>
@@ -151,19 +141,19 @@
     </div>
 
     <div class="section">
-        <div class="section-header">2. 제작비</div>
+        <div class="section-header">2. 제작비 산출</div>
         <div class="grid-container">
             <div class="input-group">
                 <label>디자인</label>
-                <div class="input-wrapper"><span>₩</span><input type="text" id="design" inputmode="numeric" placeholder="0" oninput="handleInput(this)"></div>
+                <div class="input-wrapper"><span>₩</span><input type="text" id="design" inputmode="numeric" placeholder="0" oninput="handleInput(this)" onclick="this.select()"></div>
             </div>
             <div class="input-group">
                 <label>세공/주조</label>
-                <div class="input-wrapper"><span>₩</span><input type="text" id="craft" inputmode="numeric" placeholder="0" oninput="handleInput(this)"></div>
+                <div class="input-wrapper"><span>₩</span><input type="text" id="craft" inputmode="numeric" placeholder="0" oninput="handleInput(this)" onclick="this.select()"></div>
             </div>
             <div class="input-group">
                 <label>판관비</label>
-                <div class="input-wrapper"><span>₩</span><input type="text" id="admin" inputmode="numeric" placeholder="0" oninput="handleInput(this)"></div>
+                <div class="input-wrapper"><span>₩</span><input type="text" id="admin" inputmode="numeric" placeholder="0" oninput="handleInput(this)" onclick="this.select()"></div>
             </div>
             <div class="sub-total">
                 <div class="sub-total-label">공임비 소계</div>
@@ -176,12 +166,12 @@
         <div class="section-header">3. 최종 가격 산출</div>
         <div class="grid-container">
             <div class="cost-info-group">
-                <span style="font-size: 0.7rem; color: var(--sub-text); font-weight: 600;">제작 원가 합계</span>
-                <span style="font-size: 1rem; font-weight: 700;">₩ <span id="totalCost">0</span></span>
+                <span style="font-size: 0.75rem; color: var(--sub-text); font-weight: 600; margin-bottom: 2px;">제작 원가 합계</span>
+                <span style="font-size: 1.1rem; font-weight: 800; color: var(--primary);">₩ <span id="totalCost">0</span></span>
             </div>
             <div class="input-group margin-group">
                 <label>마진율(%)</label>
-                <div class="input-wrapper"><input type="text" id="marginInput" value="100" inputmode="numeric" oninput="handleInput(this)" style="color: var(--accent);"><span>%</span></div>
+                <div class="input-wrapper"><input type="text" id="marginInput" value="100" inputmode="numeric" oninput="handleInput(this)" onclick="this.select()" style="color: var(--accent);"><span>%</span></div>
             </div>
         </div>
         
@@ -193,7 +183,8 @@
 
     <div class="formula-info">
         <div class="formula-text">
-            <b>최종가</b> = [재료비(시세×중량 + 부자재) + 제작비(디자인비+세공비+판관비)] × 마진율
+            <b>최종가 산출 공식</b><br>
+            [재료비(시세×중량 + 부자재) + 제작비(디자인+세공+판관)] × 마진율
         </div>
     </div>
 </div>
